@@ -1,11 +1,10 @@
+import java.util.ArrayList;
+import java.util.Observable;
+import javafx.util.Pair;
+
 /** 
  * @author oyuz
  */
-
-import java.util.ArrayList;
-import java.util.Observable;
-
-import javafx.util.Pair;
 
 public class Snake extends Observable {
 

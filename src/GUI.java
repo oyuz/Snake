@@ -1,13 +1,12 @@
-/** 
- * @author oyuz
- */
-
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+/** 
+ * @author oyuz
+ */
 
 public class GUI extends JFrame implements KeyListener {
 
@@ -67,6 +66,10 @@ public class GUI extends JFrame implements KeyListener {
 
     }
 
+    public void gameOver() {
+	
+    }
+    
     public static void main(String[] args) {
         new GUI();
     }

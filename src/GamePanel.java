@@ -1,18 +1,14 @@
-/** 
- * @author oyuz
- */
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.JPanel;
-
 import javafx.util.Pair;
 
-
+/** 
+ * @author oyuz
+ */
 
 public class GamePanel extends JPanel implements Observer {
 
