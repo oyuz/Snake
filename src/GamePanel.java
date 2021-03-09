@@ -12,12 +12,8 @@ public class GamePanel extends JPanel implements Observer {
 
     private static final long serialVersionUID = 1L;
     
-    private static final int UP = 1;
-    private static final int RIGHT = 2;
-    private static final int DOWN = 3;
-    private static final int LEFT = 4;
-    private static final int UNITSIZE = 8;
-    private static final int PADDING = 2;
+    private static final int UNITSIZE = 16;
+    private static final int PADDING = 4;
     
     private Snake snake;
     
@@ -31,11 +27,8 @@ public class GamePanel extends JPanel implements Observer {
        g.setColor(Color.WHITE);
        ArrayList<Pair<Integer, Integer>> body = snake.getBody();
        for (Pair<Integer, Integer> bodyPart : body) {
-	   g.fillRect(bodyPart.getKey() + PADDING,  bodyPart.getKey() + PADDING, UNITSIZE, UNITSIZE);
+	   g.fillRect(bodyPart.getKey() + PADDING,  bodyPart.getValue() + PADDING, UNITSIZE, UNITSIZE);
        }
-       g.fillRect(02, 02, UNITSIZE, UNITSIZE);
-       g.fillRect(12, 02, UNITSIZE, UNITSIZE);
-       g.fillRect(22, 02, UNITSIZE, UNITSIZE);
     }
     
     
@@ -47,7 +40,7 @@ public class GamePanel extends JPanel implements Observer {
     @Override
     public void update(Observable arg0, Object arg1) {
 	// TODO Auto-generated method stub
-	
+	repaint();
     }
     
 }

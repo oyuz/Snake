@@ -30,6 +30,8 @@ public class GUI extends JFrame implements KeyListener {
         addKeyListener(this);
         setSize(600, 600);
         setVisible(true);
+        
+        snake.addObserver(gamePanel);
     }
 
     @Override

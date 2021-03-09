@@ -1,15 +1,15 @@
 import java.util.ArrayList;
+import java.util.Observable;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.util.Pair;
 
-public class Snake implements Observable {
+public class Snake extends Observable {
 
     private static final int UP = 1;
     private static final int RIGHT = 2;
     private static final int DOWN = 3;
     private static final int LEFT = 4;
+    private static final int UNITSIZE = 20;
     
     private int direction;
     private Pair<Integer, Integer> pos;
@@ -18,6 +18,9 @@ public class Snake implements Observable {
     
     public Snake() {
 	pos = new Pair<>(20, 20);
+	direction = DOWN;
+	body = new ArrayList<Pair<Integer, Integer>>();
+	body.add(pos);
     }
     
     
@@ -29,23 +32,29 @@ public class Snake implements Observable {
 	Pair<Integer, Integer> newPos;
 	switch (direction) {
 		case UP:
-		     newPos = new Pair<>(pos.getKey(), pos.getValue() - 1);
+		     newPos = new Pair<>(pos.getKey(), pos.getValue() - UNITSIZE);
 		     body.add(newPos);
+		     pos = newPos;
 		    break;
 		case DOWN:
-		    newPos = new Pair<>(pos.getKey(), pos.getValue() + 1);
+		    newPos = new Pair<>(pos.getKey(), pos.getValue() + UNITSIZE);
 		    body.add(newPos);
+		    pos = newPos;
 		    break;
 		case RIGHT:
-		    newPos = new Pair<>(pos.getKey() + 1, pos.getValue());
+		    newPos = new Pair<>(pos.getKey() + UNITSIZE, pos.getValue());
 		    body.add(newPos);
+		    pos = newPos;
 		    break;
 		case LEFT:
-		    newPos = new Pair<>(pos.getKey() - 1, pos.getValue());
+		    newPos = new Pair<>(pos.getKey() - UNITSIZE, pos.getValue());
 		    body.add(newPos);
+		    pos = newPos;
 		    break;
 	}
 	this.direction = direction;
+	setChanged();
+	notifyObservers();
     }
     
     public Pair<Integer, Integer> getPos() {
@@ -54,19 +63,5 @@ public class Snake implements Observable {
     
     public ArrayList<Pair<Integer, Integer>> getBody() {
 	return body;
-    }
-
-
-    @Override
-    public void addListener(InvalidationListener arg0) {
-	// TODO Auto-generated method stub
-	
-    }
-
-
-    @Override
-    public void removeListener(InvalidationListener arg0) {
-	// TODO Auto-generated method stub
-	
     }
 }
