@@ -1,3 +1,7 @@
+/** 
+ * @author oyuz
+ */
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -7,6 +11,8 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import javafx.util.Pair;
+
+
 
 public class GamePanel extends JPanel implements Observer {
 

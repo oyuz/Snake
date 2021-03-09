@@ -1,3 +1,7 @@
+/** 
+ * @author oyuz
+ */
+
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -28,7 +32,11 @@ public class Snake extends Observable {
 	return direction;
     }
     
-    public void changeDirection(int direction) {
+    public void setDirection(int direction) {
+	this.direction = direction;
+    }
+    
+    public void move() {
 	Pair<Integer, Integer> newPos;
 	switch (direction) {
 		case UP:
@@ -52,7 +60,6 @@ public class Snake extends Observable {
 		    pos = newPos;
 		    break;
 	}
-	this.direction = direction;
 	setChanged();
 	notifyObservers();
     }

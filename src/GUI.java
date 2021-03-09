@@ -1,8 +1,13 @@
+/** 
+ * @author oyuz
+ */
+
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
 
 public class GUI extends JFrame implements KeyListener {
 
@@ -44,16 +49,20 @@ public class GUI extends JFrame implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && snake.getDirection() != RIGHT) {
-            snake.changeDirection(RIGHT);
+            snake.setDirection(RIGHT);
+            snake.move();
         }
         else if (e.getKeyCode() == KeyEvent.VK_LEFT && snake.getDirection() != LEFT) {
-            snake.changeDirection(LEFT);
+            snake.setDirection(LEFT);
+            snake.move();
         }
         else if (e.getKeyCode() == KeyEvent.VK_UP && snake.getDirection() != UP) {
-            snake.changeDirection(UP);
+            snake.setDirection(UP);
+            snake.move();
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN && snake.getDirection() != DOWN) {
-            snake.changeDirection(DOWN);
+            snake.setDirection(DOWN);
+            snake.move();
         }
 
     }
