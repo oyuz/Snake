@@ -40,27 +40,31 @@ public class Snake extends Observable {
 	switch (direction) {
 		case UP:
 		     newPos = new Pair<>(pos.getKey(), pos.getValue() - UNITSIZE);
+		     System.out.println(newPos);
 		     body.add(newPos);
 		     pos = newPos;
 		    break;
 		case DOWN:
 		    newPos = new Pair<>(pos.getKey(), pos.getValue() + UNITSIZE);
+		    System.out.println(newPos);
 		    body.add(newPos);
 		    pos = newPos;
 		    break;
 		case RIGHT:
 		    newPos = new Pair<>(pos.getKey() + UNITSIZE, pos.getValue());
+		    System.out.println(newPos);
 		    body.add(newPos);
 		    pos = newPos;
 		    break;
 		case LEFT:
 		    newPos = new Pair<>(pos.getKey() - UNITSIZE, pos.getValue());
+		    System.out.println(newPos);
 		    body.add(newPos);
 		    pos = newPos;
 		    break;
 	}
 	setChanged();
-	notifyObservers();
+	notifyObservers(pos);
     }
     
     public Pair<Integer, Integer> getPos() {

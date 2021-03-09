@@ -22,11 +22,11 @@ public class GUI extends JFrame implements KeyListener {
     
     JLabel label;
 
-    public GUI() {
+    public GUI(Snake snake) {
 	
         super("Snake");
         
-        snake = new Snake();
+        this.snake = snake;
         
         gamePanel = new GamePanel(snake);
         gamePanel.setBackground(Color.black);
@@ -47,19 +47,19 @@ public class GUI extends JFrame implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT && snake.getDirection() != RIGHT) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT /*&& snake.getDirection() != RIGHT*/) {
             snake.setDirection(RIGHT);
             snake.move();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_LEFT && snake.getDirection() != LEFT) {
+        else if (e.getKeyCode() == KeyEvent.VK_LEFT /*&& snake.getDirection() != LEFT*/) {
             snake.setDirection(LEFT);
             snake.move();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_UP && snake.getDirection() != UP) {
+        else if (e.getKeyCode() == KeyEvent.VK_UP /*&& snake.getDirection() != UP*/) {
             snake.setDirection(UP);
             snake.move();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_DOWN && snake.getDirection() != DOWN) {
+        else if (e.getKeyCode() == KeyEvent.VK_DOWN /*&& snake.getDirection() != DOWN*/) {
             snake.setDirection(DOWN);
             snake.move();
         }
@@ -67,10 +67,7 @@ public class GUI extends JFrame implements KeyListener {
     }
 
     public void gameOver() {
-	
-    }
-    
-    public static void main(String[] args) {
-        new GUI();
+	System.out.println("GAME OVER");
+	// TODO: Game over GUI sequence
     }
 }
