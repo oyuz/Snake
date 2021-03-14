@@ -1,5 +1,6 @@
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import javafx.util.Pair;
 
@@ -18,14 +19,17 @@ public class Engine implements Observer {
     private static final int HORIZONTALBOUNDARY = 560;
     private GUI gui;
     private Snake snake;
+    private GamePanel gamePanel;
     private boolean gameFlag;
+    private Random rng;
     
     private Pair<Integer, Integer> snakeHead;
     
-    public Engine(GUI gui, Snake snake) {
+    public Engine(GUI gui, Snake snake, GamePanel gamePanel) {
 	gameField = new int[30][30];
 	this.gui = gui;
 	this.snake = snake;
+	this.gamePanel = gamePanel;
 	gameFlag = true;
     }
     
@@ -38,6 +42,17 @@ public class Engine implements Observer {
 	while (gameFlag) {
 	    // check if player has made a move recently (predefined value), if not, move snake.
 	}
+    }
+    
+    public void generateFood() {
+	// Randomize a square that is not occupied by snake
+	int randomX = rng.nextInt(30);
+	int randomY = rng.nextInt(30);
+	while (gameField[randomX][randomY] != SNAKEPART) {
+	    randomX = rng.nextInt(30);
+	    randomY = rng.nextInt(30);
+	}
+	gamePanel.newSnack(randomX, randomY);
     }
     
     @SuppressWarnings("unchecked")
@@ -55,13 +70,13 @@ public class Engine implements Observer {
 	    gameFlag = false;
 	    gui.gameOver();
 	}
-	else if (gameField[x][y] == SNAKEPART) {
-	    gameFlag = false;
-	    gui.gameOver();
-	}
-	else if (gameField[x][y] == FOOD) {
-	    
-	}
+//	else if (gameField[x][y] == SNAKEPART) {
+//	    gameFlag = false;
+//	    gui.gameOver();
+//	}
+//	else if (gameField[x][y] == FOOD) {
+//	    
+//	}
 	
     }
 

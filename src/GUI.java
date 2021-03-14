@@ -22,20 +22,20 @@ public class GUI extends JFrame implements KeyListener {
     
     JLabel label;
 
-    public GUI(Snake snake) {
+    public GUI(Snake snake, GamePanel gamePanel) {
 	
         super("Snake");
-        
+   
         this.snake = snake;
         
-        gamePanel = new GamePanel(snake);
         gamePanel.setBackground(Color.black);
         add(gamePanel);
         addKeyListener(this);
         setSize(600, 600);
         setVisible(true);
-        
         snake.addObserver(gamePanel);
+        
+        this.gamePanel = gamePanel;
     }
 
     @Override
