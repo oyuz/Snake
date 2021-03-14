@@ -15,15 +15,17 @@ public class Snake extends Observable {
     private static final int UNITSIZE = 20;
     
     private int direction;
-    private Pair<Integer, Integer> pos;
+    private Pair<Integer, Integer> head;
+    private Pair<Integer, Integer> tail;
     private ArrayList<Pair<Integer, Integer>> body;
     
     
-    public Snake() {
-	pos = new Pair<>(20, 20);
-	direction = DOWN;
+    public Snake(int startX, int startY, int direction) {
+	head = new Pair<>(startX, startY);
+	tail = new Pair<>(startX, startY);
+	this.direction = direction;
 	body = new ArrayList<Pair<Integer, Integer>>();
-	body.add(pos);
+	body.add(head);
     }
     
     
@@ -36,39 +38,45 @@ public class Snake extends Observable {
     }
     
     public void move() {
-	Pair<Integer, Integer> newPos;
+	
+	// Add new head
+	Pair<Integer, Integer> newHead = new Pair<>(0, 0);
 	switch (direction) {
-		case UP:
-		     newPos = new Pair<>(pos.getKey(), pos.getValue() - UNITSIZE);
-		     System.out.println(newPos);
-		     body.add(newPos);
-		     pos = newPos;
-		    break;
-		case DOWN:
-		    newPos = new Pair<>(pos.getKey(), pos.getValue() + UNITSIZE);
-		    System.out.println(newPos);
-		    body.add(newPos);
-		    pos = newPos;
-		    break;
-		case RIGHT:
-		    newPos = new Pair<>(pos.getKey() + UNITSIZE, pos.getValue());
-		    System.out.println(newPos);
-		    body.add(newPos);
-		    pos = newPos;
-		    break;
-		case LEFT:
-		    newPos = new Pair<>(pos.getKey() - UNITSIZE, pos.getValue());
-		    System.out.println(newPos);
-		    body.add(newPos);
-		    pos = newPos;
-		    break;
+	case UP:
+	    newHead = new Pair<>(head.getKey(), head.getValue() - UNITSIZE);
+	    break;
+	case DOWN:
+	    newHead = new Pair<>(head.getKey(), head.getValue() + UNITSIZE);
+	    break;
+	case RIGHT:
+	    newHead = new Pair<>(head.getKey() + UNITSIZE, head.getValue());
+	    break;
+	case LEFT:
+	    newHead = new Pair<>(head.getKey() - UNITSIZE, head.getValue());
+	    break;
 	}
+	body.add(newHead);
+	head = newHead;
+	
+	// Delete the tail
+	body.remove(0);
+	
+	// Update listeners
 	setChanged();
-	notifyObservers(pos);
+	notifyObservers(head);
     }
     
-    public Pair<Integer, Integer> getPos() {
-	return pos;
+    /* When player has eaten new snaccc */
+    public void grow() {
+	
+    }
+    
+    public Pair<Integer, Integer> getHead() {
+	return head;
+    }
+    
+    public Pair<Integer, Integer> getTail() {
+	return tail;
     }
     
     public ArrayList<Pair<Integer, Integer>> getBody() {
