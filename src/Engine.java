@@ -17,11 +17,13 @@ public class Engine implements Observer {
     private static final int LOWBOUNDARY = 0;
     private static final int VERTICALBOUNDARY = 540;
     private static final int HORIZONTALBOUNDARY = 560;
+    private static final int TICKSPEED = 150;
     private GUI gui;
     private Snake snake;
     private GamePanel gamePanel;
     private boolean gameFlag;
     private Random rng;
+    private long lastMove;
     
     private Pair<Integer, Integer> snakeHead;
     
@@ -31,6 +33,7 @@ public class Engine implements Observer {
 	this.snake = snake;
 	this.gamePanel = gamePanel;
 	gameFlag = true;
+	run();
     }
     
     // CREATE FOOD GENERATOR
@@ -41,6 +44,16 @@ public class Engine implements Observer {
     public void run() {
 	while (gameFlag) {
 	    // check if player has made a move recently (predefined value), if not, move snake.
+	    long currentTime = System.currentTimeMillis();
+	    if (currentTime - lastMove >= TICKSPEED) {
+		snake.move();
+	    }
+	    try {
+		Thread.sleep(TICKSPEED);
+	    } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
 	}
     }
     
