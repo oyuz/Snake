@@ -113,7 +113,7 @@ public class Engine implements Observer {
 	else if (gameField[x/20][y/20] == FOOD) {
 	    generateFood();
 	    snake.grow();
-	    gameField[x/20][y/20] = 0;
+	    gameField[x/20][y/20] = 0;	// clear eaten food
 	}
 	
     }
