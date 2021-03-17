@@ -20,6 +20,7 @@ public class Snake extends Observable {
     private ArrayList<Pair<Integer, Integer>> body;
     private boolean extend; // boolean used for snake growth
     private boolean lockMove;
+    private int[] headTail;
     
     public Snake(int startX, int startY, int direction) {
 	head = new Pair<>(startX, startY);
@@ -28,6 +29,7 @@ public class Snake extends Observable {
 	body = new ArrayList<Pair<Integer, Integer>>();
 	body.add(head);
 	extend = false;
+	headTail = new int[4];
     }
     
     
@@ -64,6 +66,11 @@ public class Snake extends Observable {
 	body.add(newHead);
 	head = newHead;
 	
+	headTail[0] = head.getKey()/20;
+	headTail[1] = head.getValue()/20;
+	headTail[2] = tail.getKey()/20; // Send old tail to engine
+	headTail[3] = tail.getValue()/20;
+	
 	if (extend == false) {
 	    // delete the old tail (common case)
 	    body.remove(0);
@@ -76,7 +83,7 @@ public class Snake extends Observable {
 	
 	// Update listeners
 	setChanged();
-	notifyObservers(head);
+	notifyObservers(headTail);
     }
     
     /* When player has eaten new snaccc */

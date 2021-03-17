@@ -42,8 +42,8 @@ public class Engine implements Observer {
     private static final int SNAKEPART = 1;
     private static final int FOOD = 2;
     private static final int LOWBOUNDARY = 0;
-    private static final int VERTICALBOUNDARY = 540;
-    private static final int HORIZONTALBOUNDARY = 560;
+    private static final int VERTICALBOUNDARY = 28;
+    private static final int HORIZONTALBOUNDARY = 29;
     private GUI gui;
     private Snake snake;
     private GamePanel gamePanel;
@@ -55,7 +55,7 @@ public class Engine implements Observer {
     private Pair<Integer, Integer> snakeHead;
     
     public Engine(GUI gui, Snake snake, GamePanel gamePanel) {
-	gameField = new int[27][28];
+	gameField = new int[HORIZONTALBOUNDARY][VERTICALBOUNDARY];
 	this.gui = gui;
 	this.snake = snake;
 	this.gamePanel = gamePanel;
@@ -78,11 +78,11 @@ public class Engine implements Observer {
     
     public void generateFood() {
 	// Randomize a square that is not occupied by snake
-	int randomX = rng.nextInt(27);
-	int randomY = rng.nextInt(28);
+	int randomX = rng.nextInt(HORIZONTALBOUNDARY);
+	int randomY = rng.nextInt(VERTICALBOUNDARY);
 	while (gameField[randomX][randomY] == SNAKEPART) {
-	    randomX = rng.nextInt(27);
-	    randomY = rng.nextInt(28);
+	    randomX = rng.nextInt(HORIZONTALBOUNDARY);
+	    randomY = rng.nextInt(VERTICALBOUNDARY);
 	}
 	gameField[randomX][randomY] = FOOD;
 	gamePanel.newSnack(randomX, randomY);
@@ -92,28 +92,34 @@ public class Engine implements Observer {
     @Override
     public void update(Observable arg0, Object arg1) {
 	// TODO Auto-generated method stub
-	snakeHead = (Pair<Integer, Integer>) arg1;
-	int x = snakeHead.getKey();
-	int y = snakeHead.getValue();
-	if (x < LOWBOUNDARY || x > HORIZONTALBOUNDARY) {
+	int[] headTail = (int[]) arg1;
+	int x = headTail[0];
+	int y = headTail[1];
+	if (x < LOWBOUNDARY || x >= HORIZONTALBOUNDARY) {
 	    gameFlag = false;
 	    gui.gameOver();
 	    moveThread.interrupt();
 	}
-	else if (y < LOWBOUNDARY || y > VERTICALBOUNDARY) {
+	else if (y < LOWBOUNDARY || y >= VERTICALBOUNDARY) {
 	    gameFlag = false;
 	    gui.gameOver();
 	    moveThread.interrupt();
 	}
-	else if (gameField[x/20][y/20] == SNAKEPART) {
+	else if (gameField[x][y] == SNAKEPART) {
 	    gameFlag = false;
 	    gui.gameOver();
 	    moveThread.interrupt();
 	}
-	else if (gameField[x/20][y/20] == FOOD) {
+	else if (gameField[x][y] == FOOD) {
+	    //gameField[x][y] = SNAKEPART;
 	    generateFood();
 	    snake.grow();
-	    gameField[x/20][y/20] = 0;	// clear eaten food
+	    gameField[x][y] = 0;	// clear eaten food
+	} else {
+	    //gameField[x][y] = SNAKEPART;
+	    //int oldTailX = headTail[2];
+	    //int oldTailY = headTail[3];
+	    //gameField[oldTailX][oldTailY] = 0; // delete old tail end
 	}
 	
     }
