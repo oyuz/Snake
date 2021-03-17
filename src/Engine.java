@@ -9,6 +9,33 @@ import javafx.util.Pair;
  *
  */
 
+class Mover implements Runnable {
+
+    private static final int TICKSPEED = 150;
+    
+    private Snake snake;
+    private boolean stopFlag;
+    
+    Mover(Snake snake) {
+	this.snake = snake;
+	stopFlag = false;
+    }
+    
+    @Override
+    public void run() {
+	snake.move();
+	while (!stopFlag) {
+	    try {
+		Thread.sleep(TICKSPEED);
+		run();
+	    } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		stopFlag = true;
+	    }
+	}
+    }
+}
+
 public class Engine implements Observer {
 
     private int[][] gameField;
@@ -17,13 +44,13 @@ public class Engine implements Observer {
     private static final int LOWBOUNDARY = 0;
     private static final int VERTICALBOUNDARY = 540;
     private static final int HORIZONTALBOUNDARY = 560;
-    private static final int TICKSPEED = 150;
     private GUI gui;
     private Snake snake;
     private GamePanel gamePanel;
-    private boolean gameFlag;
+    private Mover mover;
     private Random rng;
-    private long lastMove;
+    private Thread moveThread;
+    private boolean gameFlag;
     
     private Pair<Integer, Integer> snakeHead;
     
@@ -32,8 +59,10 @@ public class Engine implements Observer {
 	this.gui = gui;
 	this.snake = snake;
 	this.gamePanel = gamePanel;
+	this.mover = new Mover(snake);
+	moveThread = new Thread(mover);
 	gameFlag = true;
-	run();
+	start();
     }
     
     // CREATE FOOD GENERATOR
@@ -41,20 +70,8 @@ public class Engine implements Observer {
     // GENERATE SNAKE STARTING POSITION
     
     // MAKE SNAKE MOVE AT TIMED INTERVALLS
-    public void run() {
-	while (gameFlag) {
-	    // check if player has made a move recently (predefined value), if not, move snake.
-	    long currentTime = System.currentTimeMillis();
-	    if (currentTime - lastMove >= TICKSPEED) {
-		snake.move();
-	    }
-	    try {
-		Thread.sleep(TICKSPEED);
-	    } catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
-	}
+    public void start() {
+	moveThread.start();
     }
     
     public void generateFood() {
@@ -78,10 +95,12 @@ public class Engine implements Observer {
 	if (x < LOWBOUNDARY || x > HORIZONTALBOUNDARY) {
 	    gameFlag = false;
 	    gui.gameOver();
+	    moveThread.interrupt();
 	}
 	else if (y < LOWBOUNDARY || y > VERTICALBOUNDARY) {
 	    gameFlag = false;
 	    gui.gameOver();
+	    moveThread.interrupt();
 	}
 //	else if (gameField[x][y] == SNAKEPART) {
 //	    gameFlag = false;

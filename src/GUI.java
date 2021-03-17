@@ -17,7 +17,6 @@ public class GUI extends JFrame implements KeyListener {
     private static final int DOWN = 3;
     private static final int LEFT = 4;
     
-    private GamePanel gamePanel;
     private Snake snake;
     
     JLabel label;
@@ -34,8 +33,6 @@ public class GUI extends JFrame implements KeyListener {
         setSize(600, 600);
         setVisible(true);
         snake.addObserver(gamePanel);
-        
-        this.gamePanel = gamePanel;
     }
 
     @Override
@@ -46,22 +43,22 @@ public class GUI extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT && snake.getDirection() != RIGHT) {
+	int dir = snake.getDirection();
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT && dir != RIGHT && dir != LEFT) {
             snake.setDirection(RIGHT);
-            snake.move();
+            //snake.move();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_LEFT && snake.getDirection() != LEFT) {
+        else if (e.getKeyCode() == KeyEvent.VK_LEFT && dir != LEFT && dir != RIGHT) {
             snake.setDirection(LEFT);
-            snake.move();
+            //snake.move();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_UP && snake.getDirection() != UP) {
+        else if (e.getKeyCode() == KeyEvent.VK_UP && dir != UP && dir != DOWN) {
             snake.setDirection(UP);
-            snake.move();
+            //snake.move();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_DOWN && snake.getDirection() != DOWN) {
+        else if (e.getKeyCode() == KeyEvent.VK_DOWN && dir != DOWN && dir != UP) {
             snake.setDirection(DOWN);
-            snake.move();
+            //snake.move();
         }
 
     }

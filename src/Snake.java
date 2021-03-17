@@ -68,7 +68,6 @@ public class Snake extends Observable {
 	    extend = false;
 	}
 	
-	
 	// Update listeners
 	setChanged();
 	notifyObservers(head);
