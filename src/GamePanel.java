@@ -19,29 +19,32 @@ public class GamePanel extends JPanel implements Observer {
     
     private Snake snake;
     private Pair<Integer, Integer> snack;
+    private int score;
     
     public GamePanel(Snake snake) {
 	this.snake = snake;
-	snack = new Pair<>(200, 200);
+	//snack = new Pair<>(200, 200);
+	score = 0;
     }
     
     @Override
     protected void paintComponent(Graphics g) {
        super.paintComponent(g);
-       g.setColor(Color.GREEN);
+       g.setColor(Color.WHITE);
+       g.drawString("SCORE: " + score, 510, 15);
        ArrayList<Pair<Integer, Integer>> body = snake.getBody();
        for (Pair<Integer, Integer> bodyPart : body) {
 	   g.fillRect(bodyPart.getKey() + PADDING,  bodyPart.getValue() + PADDING, UNITSIZE, UNITSIZE);
        }
-       g.setColor(Color.RED);
        g.fillRect(snack.getKey() + PADDING, snack.getValue() + PADDING, UNITSIZE, UNITSIZE);
     }
     
     
     /* Adds a new snack to the board */
     public void newSnack(int x, int y) {
-	Pair<Integer, Integer> newSnack = new Pair<>(x, y);
+	Pair<Integer, Integer> newSnack = new Pair<>(x*20, y*20);
 	snack = newSnack;
+	score++;
     }
 
     @Override

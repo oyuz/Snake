@@ -11,7 +11,7 @@ import javafx.util.Pair;
 
 class Mover implements Runnable {
 
-    private static final int TICKSPEED = 150;
+    private static final int TICKSPEED = 100;
     
     private Snake snake;
     private boolean stopFlag;
@@ -55,13 +55,15 @@ public class Engine implements Observer {
     private Pair<Integer, Integer> snakeHead;
     
     public Engine(GUI gui, Snake snake, GamePanel gamePanel) {
-	gameField = new int[30][30];
+	gameField = new int[27][28];
 	this.gui = gui;
 	this.snake = snake;
 	this.gamePanel = gamePanel;
 	this.mover = new Mover(snake);
+	rng = new Random();
 	moveThread = new Thread(mover);
 	gameFlag = true;
+	generateFood();
 	start();
     }
     
@@ -76,12 +78,13 @@ public class Engine implements Observer {
     
     public void generateFood() {
 	// Randomize a square that is not occupied by snake
-	int randomX = rng.nextInt(30);
-	int randomY = rng.nextInt(30);
-	while (gameField[randomX][randomY] != SNAKEPART) {
-	    randomX = rng.nextInt(30);
-	    randomY = rng.nextInt(30);
+	int randomX = rng.nextInt(27);
+	int randomY = rng.nextInt(28);
+	while (gameField[randomX][randomY] == SNAKEPART) {
+	    randomX = rng.nextInt(27);
+	    randomY = rng.nextInt(28);
 	}
+	gameField[randomX][randomY] = FOOD;
 	gamePanel.newSnack(randomX, randomY);
     }
     
@@ -102,13 +105,15 @@ public class Engine implements Observer {
 	    gui.gameOver();
 	    moveThread.interrupt();
 	}
-//	else if (gameField[x][y] == SNAKEPART) {
-//	    gameFlag = false;
-//	    gui.gameOver();
-//	}
-//	else if (gameField[x][y] == FOOD) {
-//	    
-//	}
+	else if (gameField[x/20][y/20] == SNAKEPART) {
+	    gameFlag = false;
+	    gui.gameOver();
+	    moveThread.interrupt();
+	}
+	else if (gameField[x/20][y/20] == FOOD) {
+	    generateFood();
+	    snake.grow();
+	}
 	
     }
 

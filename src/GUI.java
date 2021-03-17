@@ -46,19 +46,15 @@ public class GUI extends JFrame implements KeyListener {
 	int dir = snake.getDirection();
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && dir != RIGHT && dir != LEFT) {
             snake.setDirection(RIGHT);
-            //snake.move();
         }
         else if (e.getKeyCode() == KeyEvent.VK_LEFT && dir != LEFT && dir != RIGHT) {
             snake.setDirection(LEFT);
-            //snake.move();
         }
         else if (e.getKeyCode() == KeyEvent.VK_UP && dir != UP && dir != DOWN) {
             snake.setDirection(UP);
-            //snake.move();
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN && dir != DOWN && dir != UP) {
             snake.setDirection(DOWN);
-            //snake.move();
         }
 
     }

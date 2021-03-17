@@ -19,7 +19,7 @@ public class Snake extends Observable {
     private Pair<Integer, Integer> tail;
     private ArrayList<Pair<Integer, Integer>> body;
     private boolean extend; // boolean used for snake growth
-    
+    private boolean lockMove;
     
     public Snake(int startX, int startY, int direction) {
 	head = new Pair<>(startX, startY);
@@ -36,7 +36,11 @@ public class Snake extends Observable {
     }
     
     public void setDirection(int direction) {
-	this.direction = direction;
+	if (lockMove == false) {
+	    this.direction = direction;
+	    lockMove = true;
+	}
+	
     }
     
     public void move() {
@@ -67,6 +71,8 @@ public class Snake extends Observable {
 	    // keep the old tail, reset boolean (when food has been eaten)
 	    extend = false;
 	}
+	
+	lockMove = false;
 	
 	// Update listeners
 	setChanged();
