@@ -1,8 +1,11 @@
+package gui;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import snake.Snake;
 
 /** 
  * @author oyuz
@@ -57,10 +60,5 @@ public class GUI extends JFrame implements KeyListener {
             snake.setDirection(DOWN);
         }
 
-    }
-
-    public void gameOver() {
-	System.out.println("GAME OVER");
-	// TODO: Game over GUI sequence
     }
 }

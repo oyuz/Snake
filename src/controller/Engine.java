@@ -1,6 +1,10 @@
+package controller;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+
+import gui.GamePanel;
+import snake.Snake;
 
 /**
  * @author oyuz
@@ -42,7 +46,6 @@ public class Engine implements Observer {
     private static final int LOWBOUNDARY = 0;
     private static final int VERTICALBOUNDARY = 28;
     private static final int HORIZONTALBOUNDARY = 29;
-    private GUI gui;
     private Snake snake;
     private GamePanel gamePanel;
     private Mover mover;
@@ -50,9 +53,8 @@ public class Engine implements Observer {
     private Thread moveThread;
     
     
-    public Engine(GUI gui, Snake snake, GamePanel gamePanel) {
+    public Engine(Snake snake, GamePanel gamePanel) {
 	gameField = new int[HORIZONTALBOUNDARY][VERTICALBOUNDARY];
-	this.gui = gui;
 	this.snake = snake;
 	this.gamePanel = gamePanel;
 	this.mover = new Mover(snake);
@@ -86,16 +88,16 @@ public class Engine implements Observer {
 	int x = headTail[0];
 	int y = headTail[1];
 	if (x < LOWBOUNDARY || x >= HORIZONTALBOUNDARY) {
-	    gui.gameOver();
 	    moveThread.interrupt();
+	    gamePanel.gameOver();
 	}
 	else if (y < LOWBOUNDARY || y >= VERTICALBOUNDARY) {
-	    gui.gameOver();
 	    moveThread.interrupt();
+	    gamePanel.gameOver();
 	}
 	else if (gameField[x][y] == SNAKEPART) {
-	    gui.gameOver();
 	    moveThread.interrupt();
+	    gamePanel.gameOver();
 	}
 	else if (gameField[x][y] == FOOD) {
 	    gameField[x][y] = SNAKEPART;
@@ -108,7 +110,6 @@ public class Engine implements Observer {
 	int oldTailX = headTail[2];
 	int oldTailY = headTail[3];
 	gameField[oldTailX][oldTailY] = 0; // delete old tail end
-	
     }
 
 }

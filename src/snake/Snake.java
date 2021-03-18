@@ -1,3 +1,4 @@
+package snake;
 import java.util.ArrayList;
 import java.util.Observable;
 import javafx.util.Pair;
@@ -42,7 +43,6 @@ public class Snake extends Observable {
 	    this.direction = direction;
 	    lockMove = true;
 	}
-	
     }
     
     public void move() {
@@ -91,14 +91,6 @@ public class Snake extends Observable {
     /* When player has eaten new snack */
     public void grow() {
 	extend = true;
-    }
-    
-    public Pair<Integer, Integer> getHead() {
-	return head;
-    }
-    
-    public Pair<Integer, Integer> getTail() {
-	return tail;
     }
     
     public ArrayList<Pair<Integer, Integer>> getBody() {
