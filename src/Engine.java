@@ -2,8 +2,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
-import javafx.util.Pair;
-
 /**
  * @author oyuz
  *
@@ -50,9 +48,7 @@ public class Engine implements Observer {
     private Mover mover;
     private Random rng;
     private Thread moveThread;
-    private boolean gameFlag;
     
-    private Pair<Integer, Integer> snakeHead;
     
     public Engine(GUI gui, Snake snake, GamePanel gamePanel) {
 	gameField = new int[HORIZONTALBOUNDARY][VERTICALBOUNDARY];
@@ -62,22 +58,17 @@ public class Engine implements Observer {
 	this.mover = new Mover(snake);
 	rng = new Random();
 	moveThread = new Thread(mover);
-	gameFlag = true;
 	generateFood();
 	start();
     }
     
-    // CREATE FOOD GENERATOR
-    
-    // GENERATE SNAKE STARTING POSITION
-    
-    // MAKE SNAKE MOVE AT TIMED INTERVALLS
+    /* Initiate the game by starting the snake-moving thread */
     public void start() {
 	moveThread.start();
     }
     
+    /* Generates a food item on a random square that is not occupied by the snake*/
     public void generateFood() {
-	// Randomize a square that is not occupied by snake
 	int randomX = rng.nextInt(HORIZONTALBOUNDARY);
 	int randomY = rng.nextInt(VERTICALBOUNDARY);
 	while (gameField[randomX][randomY] == SNAKEPART) {
@@ -88,39 +79,35 @@ public class Engine implements Observer {
 	gamePanel.newSnack(randomX, randomY);
     }
     
-    @SuppressWarnings("unchecked")
-    @Override
+    /* Update sequence for when snake makes a new move */
     public void update(Observable arg0, Object arg1) {
 	// TODO Auto-generated method stub
 	int[] headTail = (int[]) arg1;
 	int x = headTail[0];
 	int y = headTail[1];
 	if (x < LOWBOUNDARY || x >= HORIZONTALBOUNDARY) {
-	    gameFlag = false;
 	    gui.gameOver();
 	    moveThread.interrupt();
 	}
 	else if (y < LOWBOUNDARY || y >= VERTICALBOUNDARY) {
-	    gameFlag = false;
 	    gui.gameOver();
 	    moveThread.interrupt();
 	}
 	else if (gameField[x][y] == SNAKEPART) {
-	    gameFlag = false;
 	    gui.gameOver();
 	    moveThread.interrupt();
 	}
 	else if (gameField[x][y] == FOOD) {
-	    //gameField[x][y] = SNAKEPART;
+	    gameField[x][y] = SNAKEPART;
 	    generateFood();
 	    snake.grow();
-	    gameField[x][y] = 0;	// clear eaten food
+	    gameField[x][y] = 0; // clear eaten food
 	} else {
-	    //gameField[x][y] = SNAKEPART;
-	    //int oldTailX = headTail[2];
-	    //int oldTailY = headTail[3];
-	    //gameField[oldTailX][oldTailY] = 0; // delete old tail end
+	    gameField[x][y] = SNAKEPART; // add latest move to game-grid
 	}
+	int oldTailX = headTail[2];
+	int oldTailY = headTail[3];
+	gameField[oldTailX][oldTailY] = 0; // delete old tail end
 	
     }
 

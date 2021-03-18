@@ -66,14 +66,16 @@ public class Snake extends Observable {
 	body.add(newHead);
 	head = newHead;
 	
+	// Send head and old tail to engine
 	headTail[0] = head.getKey()/20;
 	headTail[1] = head.getValue()/20;
-	headTail[2] = tail.getKey()/20; // Send old tail to engine
+	headTail[2] = tail.getKey()/20; 
 	headTail[3] = tail.getValue()/20;
 	
 	if (extend == false) {
-	    // delete the old tail (common case)
+	    // delete the old tail and update (common case)
 	    body.remove(0);
+	    tail = body.get(0);
 	} else {
 	    // keep the old tail, reset boolean (when food has been eaten)
 	    extend = false;
@@ -86,7 +88,7 @@ public class Snake extends Observable {
 	notifyObservers(headTail);
     }
     
-    /* When player has eaten new snaccc */
+    /* When player has eaten new snack */
     public void grow() {
 	extend = true;
     }
