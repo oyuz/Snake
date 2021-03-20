@@ -87,15 +87,9 @@ public class Engine implements Observer {
 	int[] headTail = (int[]) arg1;
 	int x = headTail[0];
 	int y = headTail[1];
-	if (x < LOWBOUNDARY || x >= HORIZONTALBOUNDARY) {
-	    moveThread.interrupt();
-	    gamePanel.gameOver();
-	}
-	else if (y < LOWBOUNDARY || y >= VERTICALBOUNDARY) {
-	    moveThread.interrupt();
-	    gamePanel.gameOver();
-	}
-	else if (gameField[x][y] == SNAKEPART) {
+	if (x < LOWBOUNDARY || x >= HORIZONTALBOUNDARY 
+		|| y < LOWBOUNDARY || y >= VERTICALBOUNDARY
+		|| gameField[x][y] == SNAKEPART) {
 	    moveThread.interrupt();
 	    gamePanel.gameOver();
 	}
